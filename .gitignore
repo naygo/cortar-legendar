@@ -1,0 +1,14 @@
+# Material de cliente fica só na sua máquina: vídeos, transcrições, marca, saídas.
+# O repositório versiona apenas a skill e a documentação.
+clients/*
+!clients/.gitkeep
+
+*.mp4
+*.mov
+*.mkv
+*.srt
+*.vtt
+*.tsv
+*.ass
+*.json
+!.claude/settings.json
