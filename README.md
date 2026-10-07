@@ -40,6 +40,57 @@ pipx install auto-editor             # opcional: tirar silêncios
 
 Depois de clonar, abra o Claude Code **na raiz do repositório** para a skill do projeto ser carregada. Se `/cortar-legendar` aparecer duas vezes na lista, existe uma cópia antiga em `~/.claude/skills/`; apague-a.
 
+## Instalação no Windows
+
+Os scripts da skill são em bash (`clip.sh`, `join.sh`, `xjoin.sh`, `transcribe.sh`), então no Windows o caminho mais simples é o **WSL2** (Linux dentro do Windows). Assim os comandos são os mesmos do Linux.
+
+### Opção recomendada: WSL2 + Ubuntu
+
+1. Abra o **PowerShell como administrador** e instale o WSL (reinicie o PC se pedir):
+   ```powershell
+   wsl --install -d Ubuntu
+   ```
+2. Abra o **Ubuntu** pelo menu Iniciar (crie usuário e senha) e rode **dentro dele** os passos da seção [Instalação](#instalação) acima:
+   ```bash
+   sudo apt update
+   sudo apt install ffmpeg pipx
+   pipx ensurepath
+   pipx install whisper-ctranslate2
+   ```
+   Feche e reabra o terminal do Ubuntu para o `pipx` entrar no PATH.
+3. Instale o Claude Code **no Ubuntu** (veja a [documentação oficial](https://code.claude.com/docs) para o comando atual) e clone este repositório:
+   ```bash
+   cd ~
+   git clone https://github.com/naygo/cortar-legendar.git
+   cd cortar-legendar
+   claude
+   ```
+4. **Fonte da legenda:** baixe a Montserrat (Google Fonts) e instale **dentro do Ubuntu**:
+   ```bash
+   mkdir -p ~/.local/share/fonts   # copie os .ttf para cá
+   fc-cache -f
+   ```
+
+Dicas do WSL:
+- **Mantenha o projeto dentro do Linux** (`~/cortar-legendar`), não em `/mnt/c/...`: o acesso aos arquivos do Windows é bem mais lento e vídeos são pesados.
+- Para pegar os vídeos do Windows: no Explorador de Arquivos, abra `\\wsl$\Ubuntu\home\<seu-usuario>\cortar-legendar\clients\<cliente>\raw` e cole o arquivo ali. Os cortes saem em `edit/` e você abre pela mesma rota.
+- GPU NVIDIA é opcional; sem ela a transcrição roda em CPU (mais lenta, mas funciona).
+
+### Alternativa: Windows nativo (não testado)
+
+Precisa de um bash para os scripts, então instale o **Git for Windows** (traz o Git Bash) e use o terminal **Git Bash** para tudo:
+
+```powershell
+winget install Git.Git
+winget install Gyan.FFmpeg
+winget install Python.Python.3.12
+python -m pip install --user pipx
+python -m pipx ensurepath
+pipx install whisper-ctranslate2
+```
+
+Feche e reabra o terminal, confira com `ffmpeg -version` e `whisper-ctranslate2 --help`, e instale o Claude Code pelo método para Windows da documentação oficial. Esta rota **não foi testada**: se algum script falhar por caminho ou fonte, use o WSL.
+
 ## Como usar
 
 ```
